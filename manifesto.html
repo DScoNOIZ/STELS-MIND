@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STELS MIND — Manifesto</title>
+<script src="https://cdn.jsdelivr.net/npm/marked@15.0.6/marked.min.js"></script>
+<style>
+  :root {
+    --bg: #0a0e17;
+    --bg-card: #111827;
+    --text: #e2e8f0;
+    --text-dim: #94a3b8;
+    --accent: #38bdf8;
+    --accent2: #818cf8;
+    --accent3: #34d399;
+    --border: #1e293b;
+    --link: #60a5fa;
+    --radius: 12px;
+    --max-w: 820px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.8;
+    min-height: 100vh;
+  }
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  .container {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* Header */
+  header {
+    padding: 24px 0 16px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: rgba(10, 14, 23, 0.92);
+    backdrop-filter: blur(12px);
+    z-index: 100;
+  }
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .header-logo {
+    font-size: 1.1rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-decoration: none;
+  }
+  .header-links {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .header-links a {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: color 0.2s;
+  }
+  .header-links a:hover { color: var(--accent); }
+
+  /* Language selector in header */
+  .manifesto-lang-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .manifesto-lang-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    padding: 4px 10px;
+    border-radius: 14px;
+    cursor: pointer;
+    font-size: 0.72rem;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .manifesto-lang-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .manifesto-lang-btn.active {
+    border-color: var(--accent);
+    color: #fff;
+    background: rgba(56,189,248,0.15);
+  }
+
+  /* Loading State */
+  #loading {
+    text-align: center;
+    padding: 100px 0;
+    color: var(--text-dim);
+  }
+  .spinner {
+    width: 40px; height: 40px;
+    border: 3px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 20px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Error */
+  #error {
+    text-align: center;
+    padding: 80px 0;
+    color: var(--text-dim);
+    display: none;
+  }
+  #error h2 { color: #f87171; margin-bottom: 12px; }
+
+  /* Content */
+  #content {
+    padding: 40px 0 60px;
+    display: none;
+  }
+
+  /* Markdown Styling */
+  #content h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin: 40px 0 16px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+  }
+  #content h1:first-child { margin-top: 0; }
+  #content h2 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 36px 0 12px;
+    color: var(--text);
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  #content h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 28px 0 10px;
+    color: var(--accent);
+  }
+  #content p {
+    margin: 12px 0;
+    color: var(--text-dim);
+    font-size: 0.96rem;
+    line-height: 1.8;
+  }
+  #content strong {
+    color: var(--text);
+    font-weight: 700;
+  }
+  #content em {
+    color: var(--text-dim);
+  }
+  #content a {
+    color: var(--link);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+  }
+  #content a:hover {
+    border-bottom-color: var(--link);
+  }
+  #content blockquote {
+    border-left: 3px solid var(--accent);
+    padding: 12px 20px;
+    margin: 20px 0;
+    background: rgba(56,189,248,0.04);
+    border-radius: 0 8px 8px 0;
+    color: var(--text);
+    font-style: italic;
+  }
+  #content blockquote p { color: var(--text); margin: 4px 0; }
+  #content hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 32px 0;
+  }
+  #content ul, #content ol {
+    margin: 12px 0;
+    padding-left: 24px;
+    color: var(--text-dim);
+  }
+  #content li {
+    margin: 6px 0;
+    font-size: 0.96rem;
+  }
+  #content code {
+    background: rgba(56,189,248,0.08);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.88em;
+    color: var(--accent3);
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  }
+  #content pre {
+    background: #0d1117;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    overflow-x: auto;
+    margin: 20px 0;
+  }
+  #content pre code {
+    background: none;
+    padding: 0;
+    color: var(--text);
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+  #content img {
+    max-width: 100%;
+    border-radius: var(--radius);
+    margin: 20px 0;
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 32px 0 48px;
+    border-top: 1px solid var(--border);
+    color: var(--text-dim);
+    font-size: 0.82rem;
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  /* RTL support */
+  [dir="rtl"] #content blockquote {
+    border-left: none;
+    border-right: 3px solid var(--accent);
+    border-radius: 8px 0 0 8px;
+  }
+  [dir="rtl"] #content ul, [dir="rtl"] #content ol {
+    padding-left: 0;
+    padding-right: 24px;
+  }
+
+  /* Mobile */
+  @media (max-width: 640px) {
+    .header-inner { flex-direction: column; align-items: flex-start; }
+    .manifesto-lang-bar { gap: 3px; }
+    .manifesto-lang-btn { font-size: 0.65rem; padding: 3px 7px; }
+    #content h1 { font-size: 1.5rem; }
+    #content h2 { font-size: 1.2rem; }
+    #content { padding: 24px 0 40px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="container header-inner">
+    <a href="index.html" class="header-logo">STELS MIND</a>
+    <div class="header-links">
+      <div class="manifesto-lang-bar" id="manifestoLangBar"></div>
+      <a href="index.html" id="backLink">← На главную</a>
+    </div>
+  </div>
+</header>
+
+<!-- Loading -->
+<div id="loading">
+  <div class="spinner"></div>
+  <p>Загрузка манифеста...</p>
+</div>
+
+<!-- Error -->
+<div id="error">
+  <h2>⚠️ Ошибка загрузки</h2>
+  <p id="errorMsg">Не удалось загрузить манифест на этом языке.</p>
+  <p><a href="index.html" style="color:var(--accent)">Вернуться на главную</a></p>
+</div>
+
+<!-- Content -->
+<main class="container" id="content"></main>
+
+<footer>
+  <div class="container">
+    <p><a href="https://github.com/DScoNOIZ/STELS-MIND" target="_blank">GitHub</a> · STELS MIND — открытый код, никаких посредников</p>
+  </div>
+</footer>
+
+<script>
+// ===== CONFIG =====
+const LANGUAGES = [
+  { code: 'ru', label: 'Русский' },
+  { code: 'en', label: 'English' },
+  { code: 'zh', label: '中文' },
+  { code: 'ja', label: '日本語' },
+  { code: 'hi', label: 'हिन्दी' },
+  { code: 'es', label: 'Español' },
+  { code: 'ar', label: 'العربية' },
+  { code: 'pt', label: 'Português' },
+  { code: 'fr', label: 'Français' },
+  { code: 'de', label: 'Deutsch' },
+  { code: 'ko', label: '한국어' }
+];
+const LANG_DIR = { ar: 'rtl' };
+const LANG_NAMES = {};
+LANGUAGES.forEach(l => { LANG_NAMES[l.code] = l.label; });
+
+// ===== STATE =====
+let currentLang = 'ru';
+
+// ===== INIT =====
+document.addEventListener('DOMContentLoaded', () => {
+  // Get lang from URL
+  const params = new URLSearchParams(window.location.search);
+  const langParam = params.get('lang');
+  const detected = langParam || detectLang();
+  loadManifesto(detected);
+
+  // Build lang bar
+  const bar = document.getElementById('manifestoLangBar');
+  LANGUAGES.forEach(l => {
+    const btn = document.createElement('button');
+    btn.className = 'manifesto-lang-btn';
+    btn.dataset.lang = l.code;
+    btn.textContent = l.label;
+    btn.addEventListener('click', () => loadManifesto(l.code));
+    bar.appendChild(btn);
+  });
+
+  // Back link
+  updateBackLink(detected);
+});
+
+function detectLang() {
+  const navLang = (navigator.language || navigator.userLanguage || '').split('-')[0];
+  const supported = LANGUAGES.map(l => l.code);
+  if (supported.includes(navLang)) return navLang;
+  for (const s of supported) {
+    if (navLang.startsWith(s) || s.startsWith(navLang)) return s;
+  }
+  return 'ru';
+}
+
+function updateBackLink(lang) {
+  const link = document.getElementById('backLink');
+  link.href = `index.html?lang=${lang}`;
+  const labels = { ru: '← На главную', en: '← Home', zh: '← 返回首页', ja: '← トップへ',
+    hi: '← मुख्य पृष्ठ', es: '← Inicio', ar: '← الصفحة الرئيسية', pt: '← Início',
+    fr: '← Accueil', de: '← Startseite', ko: '← 홈으로' };
+  link.textContent = labels[lang] || '← Home';
+}
+
+async function loadManifesto(lang) {
+  if (!LANG_NAMES[lang]) lang = 'ru';
+  currentLang = lang;
+
+  // Update URL
+  const url = new URL(window.location);
+  url.searchParams.set('lang', lang);
+  window.history.replaceState({}, '', url);
+
+  // Update buttons
+  document.querySelectorAll('.manifesto-lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+
+  // Set direction
+  document.documentElement.dir = LANG_DIR[lang] || 'ltr';
+  document.documentElement.lang = lang;
+
+  // Update back link
+  updateBackLink(lang);
+
+  // Show loading
+  document.getElementById('loading').style.display = 'block';
+  document.getElementById('error').style.display = 'none';
+  document.getElementById('content').style.display = 'none';
+
+  try {
+    const filePath = `./manifesto-${lang}.md`;
+    const response = await fetch(filePath);
+    if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+
+    const md = await response.text();
+    const html = marked.parse(md, { breaks: true, gfm: true });
+
+    document.getElementById('content').innerHTML = html;
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('content').style.display = 'block';
+
+    // Update title
+    const titleMatch = md.match(/^#\s+(.+)/m);
+    document.title = titleMatch ? `STELS MIND — ${titleMatch[1]}` : 'STELS MIND — Manifesto';
+
+    // Scroll to top on language switch
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  } catch (err) {
+    console.error('Failed to load manifesto:', err);
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('error').style.display = 'block';
+    document.getElementById('errorMsg').textContent = `${err.message}`;
+    document.title = 'STELS MIND — Ошибка загрузки';
+  }
+}
+</script>
+</body>
+</html>
