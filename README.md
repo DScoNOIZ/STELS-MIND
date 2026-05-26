@@ -1,4 +1,4 @@
-# STELS MIND — Local Privacy Orchestrator
+# STELS MIND — A Concept, An Idea. Local Privacy Orchestrator
 
 **A gift to the world. Protect your data while using cloud AI.**
 
