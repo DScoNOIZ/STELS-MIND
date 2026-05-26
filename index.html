@@ -7,10 +7,11 @@
 <style>
   :root {
     --bg: #0a0e17;
-    --bg-card: #111827;
-    --bg-card-hover: #1a2332;
+    --bg-card: #162032;
+    --bg-card-hover: #1c2c42;
     --text: #e2e8f0;
     --text-dim: #94a3b8;
+    --text-cta: #c8d8e8;
     --accent: #38bdf8;
     --accent2: #818cf8;
     --accent3: #34d399;
@@ -21,6 +22,11 @@
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background: var(--bg);
+    background-image:
+      radial-gradient(ellipse 60% 40% at 15% 10%, rgba(56,189,248,0.05) 0%, transparent 100%),
+      radial-gradient(ellipse 50% 35% at 85% 25%, rgba(129,140,248,0.04) 0%, transparent 100%),
+      radial-gradient(ellipse 40% 30% at 50% 85%, rgba(52,211,153,0.03) 0%, transparent 100%);
+    background-attachment: fixed;
     color: var(--text);
     line-height: 1.7;
     min-height: 100vh;
@@ -120,6 +126,14 @@
     box-shadow: 0 0 20px rgba(56,189,248,0.1);
   }
 
+  /* Section divider */
+  .section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(56,189,248,0.15), rgba(129,140,248,0.15), transparent);
+    margin: 0 0 48px;
+    border: none;
+  }
+
   /* Sections */
   section { margin: 48px 0; }
   .section-title {
@@ -138,6 +152,24 @@
     line-height: 1.8;
   }
 
+  /* Call to community — special highlight for about4 */
+  .hero-call {
+    font-size: 1.05rem;
+    color: var(--text-cta);
+    margin-top: 24px;
+    margin-bottom: 0;
+    padding: 20px 24px;
+    background: linear-gradient(135deg, rgba(56,189,248,0.06), rgba(129,140,248,0.06));
+    border-left: 3px solid var(--accent2);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    line-height: 1.8;
+    position: relative;
+  }
+  .hero-call::before {
+    content: '🌐 ';
+    font-size: 1.1rem;
+  }
+
   /* Idea Grid */
   .ideas-grid {
     display: grid;
@@ -149,13 +181,14 @@
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 20px;
-    transition: all 0.25s;
+    transition: all 0.3s;
     cursor: default;
   }
   .idea-card:hover {
     background: var(--bg-card-hover);
     border-color: rgba(56,189,248,0.25);
-    transform: translateY(-2px);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 24px rgba(56,189,248,0.06);
   }
   .idea-card .num {
     font-size: 0.75rem;
@@ -190,6 +223,11 @@
     padding: 24px;
     position: relative;
     overflow: hidden;
+    transition: all 0.3s;
+  }
+  .level-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 24px rgba(56,189,248,0.06);
   }
   .level-card::before {
     content: '';
@@ -332,13 +370,18 @@
     <p class="hero-text" data-key="about1">Вы отправляете запрос к облачному ИИ — и ваши код, документы, идеи уходят на чужие серверы. STELS MIND меняет это. Локальный оркестратор — компактная модель на вашем устройстве — знает весь ваш контекст и берёт на себя роль главного архитектора.</p>
     <p class="hero-text" data-key="about2">Он разбивает задачу на фрагменты, обезличивает их, маскирует в потоке шума и отправляет разным облачным провайдерам. Каждый из них видит только свой кусок — и не может восстановить целое.</p>
     <p class="hero-text" data-key="about3">Оркестратор собирает ответы, соединяет пазлы и возвращает вам результат. <strong>Один знает всё. Остальные не знают ничего лишнего.</strong></p>
+    <p class="hero-call" data-key="about4">Это не просто концепция. Это призыв к мировому сообществу — к тем, кто ценит приватность, свободу и право на защиту данных. Идея отдана миру. Следующий шаг — в руках тех, кто готов её реализовать. Вместе мы можем построить систему, защищающую данные каждого.</p>
   </section>
+
+  <div class="section-divider"></div>
 
   <!-- 16 Ideas -->
   <section id="ideas" class="fade-in">
     <h2 class="section-title"><span class="accent">⏺</span> <span data-key="ideasTitle">16 идей, которые делают это возможным</span></h2>
     <div class="ideas-grid" id="ideasGrid"></div>
   </section>
+
+  <div class="section-divider"></div>
 
   <!-- Protection Levels -->
   <section id="levels" class="fade-in">
@@ -359,6 +402,7 @@
     </div>
   </section>
 
+  <div class="section-divider"></div>
 
 </main>
 
@@ -378,6 +422,7 @@ const TR = {
     about1: 'Вы отправляете запрос к облачному ИИ — и ваши код, документы, идеи уходят на чужие серверы. STELS MIND меняет это. Локальный оркестратор — компактная модель на вашем устройстве — знает весь ваш контекст и берёт на себя роль главного архитектора.',
     about2: 'Он разбивает задачу на фрагменты, обезличивает их, маскирует в потоке шума и отправляет разным облачным провайдерам. Каждый из них видит только свой кусок — и не может восстановить целое.',
     about3: 'Оркестратор собирает ответы, соединяет пазлы и возвращает вам результат. <strong>Один знает всё. Остальные не знают ничего лишнего.</strong>',
+    about4: 'Это не просто концепция. Это призыв к мировому сообществу — к тем, кто ценит приватность, свободу и право на защиту данных. Идея отдана миру. Следующий шаг — в руках тех, кто готов её реализовать. Вместе мы можем построить систему, защищающую данные каждого.',
     ideasTitle: '16 идей, которые делают это возможным',
     levelsTitle: 'Три уровня защиты',
     level1Badge: 'Уровень 1',
@@ -436,6 +481,7 @@ const TR = {
     about1: 'You send a request to a cloud AI — and your code, documents, ideas go to someone else\'s servers. STELS MIND changes this. A local orchestrator — a compact model on your device — knows your entire context and takes on the role of chief architect.',
     about2: 'It breaks the task into fragments, anonymizes them, masks them in a stream of noise, and sends them to different cloud providers. Each one sees only its own piece — and cannot reconstruct the whole.',
     about3: 'The orchestrator collects the answers, assembles the puzzle, and returns the result to you. <strong>One knows everything. The others know nothing they shouldn\'t.</strong>',
+    about4: 'This is more than a concept. It is a call to the global community — to those who value privacy, freedom, and the right to data protection. The idea is given to the world. The next step is in the hands of those ready to bring it to life. Together, we can build a system that protects everyone\'s data.',
     ideasTitle: '16 Ideas That Make This Possible',
     levelsTitle: 'Three Levels of Protection',
     level1Badge: 'Level 1',
@@ -494,6 +540,7 @@ const TR = {
     about1: '你向云端AI发送请求——你的代码、文档、想法就去了别人的服务器。STELS MIND改变了这一切。本地编排器——你设备上的一个紧凑模型——了解你的全部上下文，并担任首席架构师的角色。',
     about2: '它将任务分解成片段，对其进行匿名化处理，将其掩蔽在噪声流中，然后发送给不同的云端提供商。每个提供商只能看到自己的那一块——无法还原全貌。',
     about3: '编排器收集答案，拼合拼图，将结果返回给你。<strong>一个知晓一切。其余的什么都不该知道。</strong>',
+    about4: '这不仅仅是一个概念。这是对全球社区的呼吁——致那些珍视隐私、自由和数据保护权利的人。这个理念已经交给世界。下一步掌握在那些准备将其实现的人手中。我们可以共同构建一个保护每个人数据的系统。',
     ideasTitle: '16个核心理念',
     levelsTitle: '三级保护',
     level1Badge: '一级',
@@ -552,6 +599,7 @@ const TR = {
     about1: 'クラウドAIにリクエストを送ると、あなたのコード、文書、アイデアは他人のサーバーへ行きます。STELS MINDはこれを変えます。',
     about2: 'ローカルオーケストレーター——あなたのデバイス上のコンパクトなモデル——は、あなたのすべての文脈を知り、主任アーキテクトの役割を担います。タスクを断片化し、匿名化し、ノイズの流れの中に隠して、異なるクラウドプロバイダーに送ります。',
     about3: '各プロバイダーは自分のピースだけを見て、全体を再構成することはできません。オーケストレーターが結果を集め、パズルを組み立て、あなたに返します。<strong>一人がすべてを知り、他者は余計なものを何も知りません。</strong>',
+    about4: 'これは単なるコンセプトではありません。プライバシー、自由、データ保護の権利を大切にする世界中のコミュニティへの呼びかけです。アイデアは世界に捧げられました。次のステップは、それを実現する準備ができた人々の手に委ねられています。共に、すべての人のデータを守るシステムを構築しましょう。',
     ideasTitle: '16のアイデア',
     levelsTitle: '3段階の保護',
     level1Badge: 'レベル1',
@@ -610,6 +658,7 @@ const TR = {
     about1: 'आप क्लाउड AI को अनुरोध भेजते हैं — और आपका कोड, दस्तावेज़, विचार किसी और के सर्वर पर चले जाते हैं। STELS MIND इसे बदलता है।',
     about2: 'एक स्थानीय ऑर्केस्ट्रेटर — आपके डिवाइस पर एक कॉम्पैक्ट मॉडल — आपके पूरे संदर्भ को जानता है और मुख्य आर्किटेक्ट की भूमिका निभाता है। यह कार्य को टुकड़ों में तोड़ता है, उन्हें गुमनाम करता है, शोर की धारा में छुपाता है, और विभिन्न क्लाउड प्रदाताओं को भेजता है।',
     about3: 'प्रत्येक केवल अपना टुकड़ा देखता है — और पूरे को पुनर्निर्मित नहीं कर सकता। ऑर्केस्ट्रेटर उत्तर एकत्र करता है, जिग्सॉ को जोड़ता है और आपको परिणाम लौटाता है। <strong>एक सब कुछ जानता है। बाकी कोई अतिरिक्त नहीं जानता।</strong>',
+    about4: 'यह केवल एक अवधारणा नहीं है। यह वैश्विक समुदाय के लिए एक आह्वान है — उन लोगों के लिए जो गोपनीयता, स्वतंत्रता और डेटा सुरक्षा के अधिकार को महत्व देते हैं। यह विचार दुनिया को दिया गया है। अगला कदम उन लोगों के हाथों में है जो इसे साकार करने के लिए तैयार हैं। साथ मिलकर, हम एक ऐसी प्रणाली बना सकते हैं जो सभी के डेटा की रक्षा करती है।',
     ideasTitle: '16 विचार जो इसे संभव बनाते हैं',
     levelsTitle: 'सुरक्षा के तीन स्तर',
     level1Badge: 'स्तर 1',
@@ -668,6 +717,7 @@ const TR = {
     about1: 'Envías una solicitud a una IA en la nube — y tu código, documentos, ideas van a servidores ajenos. STELS MIND cambia esto.',
     about2: 'Un orquestador local — un modelo compacto en tu dispositivo — conoce todo tu contexto y asume el rol de arquitecto principal. Divide la tarea en fragmentos, los anonimiza, los enmascara en un flujo de ruido y los envía a diferentes proveedores de nube.',
     about3: 'Cada uno ve solo su propia pieza — y no puede reconstruir el todo. El orquestador recopila las respuestas, ensambla el rompecabezas y te devuelve el resultado. <strong>Uno lo sabe todo. Los demás no saben nada que no deban.</strong>',
+    about4: 'Esto no es solo un concepto. Es un llamado a la comunidad global — a quienes valoran la privacidad, la libertad y el derecho a la protección de datos. La idea se entrega al mundo. El próximo paso está en manos de quienes estén listos para hacerla realidad. Juntos podemos construir un sistema que proteja los datos de todos.',
     ideasTitle: '16 Ideas Clave',
     levelsTitle: 'Tres Niveles de Protección',
     level1Badge: 'Nivel 1',
@@ -726,6 +776,7 @@ const TR = {
     about1: 'ترسل طلباً إلى ذكاء اصطناعي سحابي — فيذهب كودك ومستنداتك وأفكارك إلى خوادم الآخرين. STELS MIND يغير هذا.',
     about2: 'منسق محلي — نموذج مدمج على جهازك — يعرف كل سياقك ويتولى دور المهندس المعماري الرئيسي. يقسم المهمة إلى أجزاء، يجهّلها، يخفيها في تيار من الضوضاء، ويرسلها إلى مزودين سحابيين مختلفين.',
     about3: 'كل واحد يرى فقط قطعته — ولا يستطيع إعادة بناء الكل. المنسق يجمع الإجابات، يركب الأحجية، ويعيد النتيجة إليك. <strong>واحد يعرف كل شيء. الباقون لا يعرفون شيئاً لا يجب أن يعرفوه.</strong>',
+    about4: 'هذه ليست مجرد فكرة. إنها دعوة للمجتمع العالمي — لأولئك الذين يقدرون الخصوصية والحرية والحق في حماية البيانات. الفكرة قد أُعطيت للعالم. الخطوة التالية في أيدي أولئك المستعدين لتحقيقها. معاً، يمكننا بناء نظام يحمي بيانات الجميع.',
     ideasTitle: '16 فكرة تجعل هذا ممكناً',
     levelsTitle: 'ثلاثة مستويات من الحماية',
     level1Badge: 'المستوى 1',
@@ -784,6 +835,7 @@ const TR = {
     about1: 'Você envia uma solicitação para uma IA na nuvem — e seu código, documentos e ideias vão para servidores de terceiros. O STELS MIND muda isso.',
     about2: 'Um orquestrador local — um modelo compacto no seu dispositivo — conhece todo o seu contexto e assume o papel de arquiteto principal. Ele divide a tarefa em fragmentos, anonimiza-os, mascara-os em um fluxo de ruído e envia para diferentes provedores de nuvem.',
     about3: 'Cada um vê apenas seu pedaço — e não pode reconstruir o todo. O orquestrador coleta as respostas, monta o quebra-cabeça e devolve o resultado para você. <strong>Um sabe tudo. Os outros não sabem nada além do necessário.</strong>',
+    about4: 'Isto não é apenas um conceito. É um chamado à comunidade global — para aqueles que valorizam a privacidade, a liberdade e o direito à proteção de dados. A ideia é entregue ao mundo. O próximo passo está nas mãos daqueles prontos para realizá-la. Juntos, podemos construir um sistema que proteja os dados de todos.',
     ideasTitle: '16 Ideias Que Tornam Isso Possível',
     levelsTitle: 'Três Níveis de Proteção',
     level1Badge: 'Nível 1',
@@ -842,6 +894,7 @@ const TR = {
     about1: 'Vous envoyez une requête à une IA dans le cloud — et votre code, vos documents, vos idées partent sur des serveurs tiers. STELS MIND change cela.',
     about2: 'Un orchestrateur local — un modèle compact sur votre appareil — connaît tout votre contexte et prend le rôle de l\'architecte principal. Il découpe la tâche en fragments, les anonymise, les masque dans un flux de bruit et les envoie à différents fournisseurs cloud.',
     about3: 'Chacun ne voit que sa pièce — et ne peut pas reconstruire le tout. L\'orchestrateur collecte les réponses, assemble le puzzle et vous renvoie le résultat. <strong>Un seul sait tout. Les autres ne savent rien de trop.</strong>',
+    about4: 'Ce n\'est pas qu\'un concept. C\'est un appel à la communauté mondiale — à ceux qui valorisent la vie privée, la liberté et le droit à la protection des données. L\'idée est donnée au monde. La prochaine étape est entre les mains de ceux prêts à la concrétiser. Ensemble, nous pouvons construire un système qui protège les données de chacun.',
     ideasTitle: '16 Idées Clés',
     levelsTitle: 'Trois Niveaux de Protection',
     level1Badge: 'Niveau 1',
@@ -900,6 +953,7 @@ const TR = {
     about1: 'Sie senden eine Anfrage an eine KI in der Cloud — und Ihr Code, Ihre Dokumente, Ihre Ideen gehen auf fremde Server. STELS MIND ändert das.',
     about2: 'Ein lokaler Orchestrator — ein kompaktes Modell auf Ihrem Gerät — kennt Ihren gesamten Kontext und übernimmt die Rolle des Chefarchitekten. Er zerlegt die Aufgabe in Fragmente, anonymisiert sie, tarnt sie in einem Strom von Rauschen und sendet sie an verschiedene Cloud-Anbieter.',
     about3: 'Jeder sieht nur sein Stück — und kann das Ganze nicht rekonstruieren. Der Orchestrator sammelt die Antworten, fügt das Puzzle zusammen und gibt Ihnen das Ergebnis zurück. <strong>Einer weiß alles. Die anderen wissen nichts Überflüssiges.</strong>',
+    about4: 'Dies ist nicht nur ein Konzept. Es ist ein Aufruf an die globale Gemeinschaft — an diejenigen, die Privatsphäre, Freiheit und das Recht auf Datenschutz schätzen. Die Idee wird der Welt übergeben. Der nächste Schritt liegt in den Händen derer, die bereit sind, sie zu verwirklichen. Gemeinsam können wir ein System aufbauen, das die Daten aller schützt.',
     ideasTitle: '16 Grundlegende Ideen',
     levelsTitle: 'Drei Schutzstufen',
     level1Badge: 'Stufe 1',
@@ -958,6 +1012,7 @@ const TR = {
     about1: '당신은 클라우드 AI에 요청을 보내고 — 당신의 코드, 문서, 아이디어는 타인의 서버로 전송됩니다. STELS MIND는 이것을 바꿉니다.',
     about2: '로컬 오케스트레이터 — 당신의 기기에 있는 소형 모델 — 는 모든 맥락을 알고 있으며 수석 건축가의 역할을 맡습니다. 이것은 작업을 조각으로 나누고, 익명화하며, 노이즈 속에 숨기고, 다양한 클라우드 제공업체에 전송합니다.',
     about3: '각 제공업체는 자신의 조각만 볼 수 있으며 — 전체를 재구성할 수 없습니다. 오케스트레이터는 응답을 수집하고, 퍼즐을 맞추고, 결과를 당신에게 반환합니다. <strong>하나는 모든 것을 압니다. 나머지는 불필요한 것을 알지 못합니다.</strong>',
+    about4: '이것은 단순한 개념이 아닙니다. 프라이버시, 자유, 데이터 보호 권리를 소중히 여기는 글로벌 커뮤니티에 대한 요청입니다. 아이디어는 세상에 주어졌습니다. 다음 단계는 그것을 실현할 준비가 된 사람들의 손에 달려 있습니다. 함께 우리는 모두의 데이터를 보호하는 시스템을 구축할 수 있습니다.',
     ideasTitle: '16가지 핵심 아이디어',
     levelsTitle: '세 가지 보호 수준',
     level1Badge: '수준 1',
