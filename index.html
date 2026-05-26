@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -293,7 +293,7 @@
 <header>
   <div class="container">
     <div class="logo">STELS MIND <span>— Local Privacy Orchestrator</span></div>
-    <div class="tagline" data-key="tagline">«Разум, который видит всё. Облака, которые не видят ничего.»</div>
+    <div class="tagline" data-key="tagline">"A mind that sees everything. Clouds that see nothing."</div>
   </div>
 </header>
 
@@ -355,7 +355,7 @@
     <div class="cta-block">
       <h2 data-key="ctaTitle">Читать полный манифест</h2>
       <p data-key="ctaDesc">16 идей, три уровня защиты, анализ существующих проектов, честные границы и призыв к действию — всё на одном языке, который вы выбираете.</p>
-      <a class="cta-btn" id="readFullBtn" href="manifesto.html?lang=ru">📖 Читать на русском</a>
+      <a class="cta-btn" id="readFullBtn" href="manifesto.html?lang=en">📖 Read the Full Manifesto</a>
     </div>
   </section>
 
@@ -1090,7 +1090,7 @@ function detectLang() {
   for (const s of supported) {
     if (navLang.startsWith(s) || s.startsWith(navLang)) return s;
   }
-  return 'ru';
+  return 'en';
 }
 
 // ===== INIT =====
